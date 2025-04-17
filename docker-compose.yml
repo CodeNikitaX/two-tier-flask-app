@@ -22,7 +22,7 @@ services:
       start_period: 60s
 
   flask-app:
-    image: niki0303/two-tier-flask-app:latest
+    build: .
     container_name: flask-app
     ports:
       - "5000:5000"
