@@ -4,6 +4,8 @@ services:
   mysql:
     image: mysql:5.7
     container_name: mysql
+    ports: 
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: devops
@@ -14,6 +16,7 @@ services:
       - ./message.sql:/docker-entrypoint-initdb.d/message.sql  
     networks:
       - twotier
+    restart: always
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
       interval: 10s
