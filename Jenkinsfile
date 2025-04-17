@@ -1,8 +1,13 @@
 pipeline{
     
-    agent any;
-    
+    agent { label "one" };
+        
     stages{
+        stage("Clean up"){
+            steps{
+                cleanWs()
+            }
+        }
         stage("Code Clone"){
             steps{
                git url: "https://github.com/LondheShubham153/two-tier-flask-app.git", branch: "master"
