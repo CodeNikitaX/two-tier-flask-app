@@ -1,50 +1,41 @@
-pipeline{
+pipeline {
+    agent any;
     
-    agent { label "one" };
-        
     stages{
-        stage("Clean up"){
-            steps{
-                cleanWs()
-            }
-        }
-        stage("Code Clone"){
-            steps{
-               git url: "https://github.com/LondheShubham153/two-tier-flask-app.git", branch: "master"
-            }
-        }
-        stage("Build"){
-            steps{
-                sh "docker build -t two-tier-flask-app ."
-            }
-            
-        }
-        stage("Test"){
-            steps{
-                echo "Developer / Tester tests likh ke dega..."
-            }
-            
-        }
-        stage("Push to Docker Hub"){
-            steps{
-                withCredentials([usernamePassword(
-                    credentialsId:"dockerHubCreds",
-                    passwordVariable: "dockerHubPass",
-                    usernameVariable: "dockerHubUser"
-                )]){
-                
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker image tag two-tier-flask-app ${env.dockerHubUser}/two-tier-flask-app"
-                sh "docker push ${env.dockerHubUser}/two-tier-flask-app:latest"
-            
-                }    
-            }
-        }
-        stage("Deploy"){
-            steps{
-                sh "docker compose up -d --build flask-app"
-            }
-        }
+     stage("Code clone"){
+         steps{
+             git url: "https://github.com/CodeNikitaX/two-tier-flask-app.git", branch: "master"
+         }
+     }  
+     stage("Code Build"){
+         steps{
+             sh "docker build -t flask-app:latest ."
+         }
+     }
+     stage("Code Test"){
+         steps{
+             echo "Code Test"
+         }
+     }
+     stage("Code Push to DockerHub"){
+         steps{
+             withCredentials([usernamePassword(
+                 credentialsId: "dockerHubCreds",
+                 passwordVariable: "dockerHubPass",
+                 usernameVariable: "dockerHubUser"
+                 )]){
+                     
+             sh "docker login -u  ${env.dockerHubUser} -p ${env.dockerHubPass}"
+             sh "docker image tag flask-app:latest ${env.dockerHubUser}/two-tier-flask-app:latest"
+             sh "docker push ${env.dockerHubUser}/two-tier-flask-app:latest"
+             
+             }
+         }
+     }
+     stage("Code Deploy"){
+         steps{
+             sh "docker compose up -d --build flask-app"
+         }
+     }
     }
-    
 }
