@@ -38,4 +38,14 @@ pipeline {
          }
      }
     }
+    post{
+        success{
+            script{
+                emailext from: 'leuvaniki11@gmail.com',
+                to: 'leuvaniki11@gmail.com',
+                body: 'Build success',
+                subject: 'Build success'    
+            }
+        }
+    }
 }
