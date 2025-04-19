@@ -3,6 +3,7 @@ pipeline {
     agent { label 'one' };
     
     stages{
+        
      stage("Code clone"){
          steps{
              git url: "https://github.com/CodeNikitaX/two-tier-flask-app.git", branch: "master"
