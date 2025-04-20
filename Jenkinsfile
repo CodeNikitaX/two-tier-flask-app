@@ -47,7 +47,7 @@ pipeline {
     post{
         success{
             script{
-                sent_email("leuvaniki11@gmail.com", 
+                send_email("leuvaniki11@gmail.com", 
                            "leuvaniki11@gmail.com", 
                            "Build success", 
                            "Build success for Demo CICD.")  
@@ -55,7 +55,7 @@ pipeline {
         }
         failure{
             script{
-                sent_email("leuvaniki11@gmail.com",
+                send_email("leuvaniki11@gmail.com",
                            "leuvaniki11@gmail.com", 
                            "Build failed", 
                            "Build failed for Demo CICD.")   
