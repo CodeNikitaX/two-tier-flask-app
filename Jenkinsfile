@@ -58,7 +58,7 @@ pipeline {
                 send_email("leuvaniki11@gmail.com",
                            "leuvaniki11@gmail.com", 
                            "Build failed", 
-                           "Build failed for Demo CICD.")   
+                           "Build failed for Demo CICD")   
             }
         }
     }
