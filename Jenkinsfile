@@ -8,7 +8,12 @@ pipeline {
          steps{
              git url: "https://github.com/CodeNikitaX/two-tier-flask-app.git", branch: "master"
          }
-     }  
+     } 
+     stage("Trivy File System Scan"){
+         steps{
+             sh "trivy fs . -o results.json"
+         }
+     }
      stage("Code Build"){
          steps{
              sh "docker build -t flask-app:latest ."
@@ -46,7 +51,15 @@ pipeline {
                 emailext from: 'leuvaniki11@gmail.com',
                 to: 'leuvaniki11@gmail.com',
                 body: 'Build success',
-                subject: 'Build success'    
+                subject: 'Build success for Demo CICD'    
+            }
+        }
+        failure{
+            script{
+                emailext from: 'leuvaniki11@gmail.com',
+                to: 'leuvaniki11@gmail.com',
+                body: 'Build failed',
+                subject: 'Build failed for Demo CICD'    
             }
         }
     }
