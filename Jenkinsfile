@@ -8,13 +8,15 @@ pipeline {
      stage("Code clone"){
          steps{
              script{
-              clone("https://github.com/CodeNikitaX/two-tier-flask-app.git", "master")   
+                 clone("https://github.com/CodeNikitaX/two-tier-flask-app.git", "master")   
              }
          }
      } 
      stage("Trivy File System Scan"){
          steps{
-             sh "trivy fs . -o results.json"
+             script{
+                 trivy()     
+             }
          }
      }
      stage("Code Build"){
@@ -29,16 +31,8 @@ pipeline {
      }
      stage("Code Push to DockerHub"){
          steps{
-             withCredentials([usernamePassword(
-                 credentialsId: "dockerHubCreds",
-                 passwordVariable: "dockerHubPass",
-                 usernameVariable: "dockerHubUser"
-                 )]){
-                     
-             sh "docker login -u  ${env.dockerHubUser} -p ${env.dockerHubPass}"
-             sh "docker image tag flask-app:latest ${env.dockerHubUser}/two-tier-flask-app:latest"
-             sh "docker push ${env.dockerHubUser}/two-tier-flask-app:latest"
-             
+             script{
+                 docker_push("two-tier-flask-app", "flask-app:latest")
              }
          }
      }
