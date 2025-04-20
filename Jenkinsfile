@@ -8,7 +8,8 @@ pipeline {
      stage("Code clone"){
          steps{
              script{
-                 clone("https://github.com/CodeNikitaX/two-tier-flask-app.git", "master")   
+                 clone("https://github.com/CodeNikitaX/two-tier-flask-app.git", 
+                       "master")   
              }
          }
      } 
@@ -32,7 +33,8 @@ pipeline {
      stage("Code Push to DockerHub"){
          steps{
              script{
-                 docker_push("two-tier-flask-app", "flask-app:latest")
+                 docker_push("two-tier-flask-app", 
+                             "flask-app:latest")
              }
          }
      }
@@ -45,18 +47,18 @@ pipeline {
     post{
         success{
             script{
-                emailext from: 'leuvaniki11@gmail.com',
-                to: 'leuvaniki11@gmail.com',
-                body: 'Build success',
-                subject: 'Build success for Demo CICD.'    
+                sent_email("leuvaniki11@gmail.com", 
+                           "leuvaniki11@gmail.com", 
+                           "Build success", 
+                           "Build success for Demo CICD.")  
             }
         }
         failure{
             script{
-                emailext from: 'leuvaniki11@gmail.com',
-                to: 'leuvaniki11@gmail.com',
-                body: 'Build failed',
-                subject: 'Build failed for Demo CICD'    
+                sent_email("leuvaniki11@gmail.com",
+                           "leuvaniki11@gmail.com", 
+                           "Build failed", 
+                           "Build failed for Demo CICD.")   
             }
         }
     }
