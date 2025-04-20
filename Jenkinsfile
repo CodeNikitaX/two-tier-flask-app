@@ -51,7 +51,7 @@ pipeline {
                 emailext from: 'leuvaniki11@gmail.com',
                 to: 'leuvaniki11@gmail.com',
                 body: 'Build success',
-                subject: 'Build success for Demo CICD'    
+                subject: 'Build success for Demo CICD.'    
             }
         }
         failure{
